@@ -1,0 +1,706 @@
+{
+  "name": "EMAIL FILTERING AGENT",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "custom",
+              "cronExpression": "*/5 * * * *"
+            }
+          ]
+        },
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -64,
+        144
+      ],
+      "id": "025a1f57-e8df-414f-b583-48df208039e8",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "x73ZnExkYDHS1XBG",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "=subject:{{ $json.Subject }}\nEmail body: {{ $json.snippet }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "Promotions",
+              "description": "This is any email looking to sell me things "
+            },
+            {
+              "category": "Social",
+              "description": "Any email from social media like yotube or facebook or instagram"
+            },
+            {
+              "category": "Personal",
+              "description": "any email sent from a friend or family members or something personal"
+            },
+            {
+              "category": "Sales",
+              "description": "anything regarding clients sending over documents , sales etc."
+            },
+            {
+              "category": "Recruitment",
+              "description": "anyone looking for job or to join our team"
+            },
+            {
+              "category": "Receipts",
+              "description": "These are transactions emails or receipt"
+            },
+            {
+              "category": "miscellaneous",
+              "description": "anything that does not fall in other cataegory"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        160,
+        144
+      ],
+      "id": "3adde2ee-5fd7-432a-a88d-1c86ab12b7f3",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        528
+      ],
+      "id": "674fdeef-0662-44a8-8aaf-1338e94c3032",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "nfOrPVa7QozMk193",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_7862496207722431010"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        512,
+        720
+      ],
+      "id": "316685df-a5ad-4415-8ebe-507d794c1fe0",
+      "name": "Add label to message",
+      "webhookId": "dff201cf-8b4d-4b91-9ad2-c78b40abc4a3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "x73ZnExkYDHS1XBG",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "CATEGORY_PROMOTIONS"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        512,
+        -432
+      ],
+      "id": "ac0b73b2-cb76-4751-baec-ffcf946ad869",
+      "name": "Add label to message1",
+      "webhookId": "dff201cf-8b4d-4b91-9ad2-c78b40abc4a3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "x73ZnExkYDHS1XBG",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "CATEGORY_SOCIAL"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        512,
+        -240
+      ],
+      "id": "97e75653-0b1d-4008-8c8d-dce5ea6bdf03",
+      "name": "Add label to message2",
+      "webhookId": "dff201cf-8b4d-4b91-9ad2-c78b40abc4a3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "x73ZnExkYDHS1XBG",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "CATEGORY_PERSONAL"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        512,
+        -48
+      ],
+      "id": "d5b075bb-ab53-446c-9901-c9bc96fa3ef7",
+      "name": "Add label to message3",
+      "webhookId": "dff201cf-8b4d-4b91-9ad2-c78b40abc4a3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "x73ZnExkYDHS1XBG",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_3970595470190809147"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        512,
+        144
+      ],
+      "id": "47217cd6-11e3-4b67-83c7-fdaece2f0121",
+      "name": "Add label to message4",
+      "webhookId": "dff201cf-8b4d-4b91-9ad2-c78b40abc4a3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "x73ZnExkYDHS1XBG",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_5505034109173728288"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        512,
+        336
+      ],
+      "id": "bc00d351-6a4f-484b-ac91-b5cdaefed25c",
+      "name": "Add label to message5",
+      "webhookId": "dff201cf-8b4d-4b91-9ad2-c78b40abc4a3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "x73ZnExkYDHS1XBG",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.id }}",
+        "labelIds": [
+          "Label_8010806728431745993"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        512,
+        528
+      ],
+      "id": "38a58322-e71f-4af4-9756-c69cd9d0d91b",
+      "name": "Add label to message6",
+      "webhookId": "dff201cf-8b4d-4b91-9ad2-c78b40abc4a3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "x73ZnExkYDHS1XBG",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        800,
+        -432
+      ],
+      "id": "c4f781e6-19ca-4e80-ba06-6981688800f3",
+      "name": "Mark a message as read",
+      "webhookId": "5a546820-7fd4-48b8-915a-63ea441aec28",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "x73ZnExkYDHS1XBG",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "You are an intelligent bot in summarizing emails ",
+              "role": "system"
+            },
+            {
+              "content": "=Subject:{{ $('Gmail Trigger').item.json.Subject }}\nEmail body: {{ $('Gmail Trigger').item.json.snippet }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        736,
+        -240
+      ],
+      "id": "550c7a22-ab64-4f82-8f7a-e72f8196117f",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "nfOrPVa7QozMk193",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1KfDS_hp2F4zx_12Y8HXAkOrsb-vLZRjUPxzijgiTIJY",
+          "mode": "list",
+          "cachedResultName": "n8n project email",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KfDS_hp2F4zx_12Y8HXAkOrsb-vLZRjUPxzijgiTIJY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KfDS_hp2F4zx_12Y8HXAkOrsb-vLZRjUPxzijgiTIJY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{ $('Gmail Trigger').item.json.id }}",
+            "Date": "={{ $now }}",
+            "Subject Line": "={{ $('Gmail Trigger').item.json.Subject }}",
+            "Summary": "={{ $json.message.content }}",
+            "Snippet": "={{ $('Gmail Trigger').item.json.snippet }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Subject Line",
+              "displayName": "Subject Line",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Snippet",
+              "displayName": "Snippet",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1088,
+        -240
+      ],
+      "id": "78f38a90-d9f2-4ad0-96e4-64c95c97f137",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3AENnofDiob0UEhX",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "subject": "={{ $json.message.content.subject_line }}",
+        "message": "={{ $json.message.content.email_body }}",
+        "options": {
+          "threadId": "={{ $('Gmail Trigger').item.json.threadId }}"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1088,
+        -48
+      ],
+      "id": "d00e846e-e6b8-4dfa-aec7-c5d8cd8a5f8a",
+      "name": "Create a draft",
+      "webhookId": "bae718ed-bb67-49bc-a566-536ae2baee5f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "x73ZnExkYDHS1XBG",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "You are an intelligent bot at  replying to emails ",
+              "role": "system"
+            },
+            {
+              "content": "=Here is the email to reply to:\nSubject:{{ $('Gmail Trigger').item.json.Subject }}\nEmail body: {{ $('Gmail Trigger').item.json.snippet }}"
+            },
+            {
+              "content": "please format the data in JSON format:\n{ \n\"subject_line\": \"\" ,\n\"email_body\": \"\" \n{",
+              "role": "assistant"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        736,
+        -48
+      ],
+      "id": "9dc1e270-4c1f-4def-8b1f-0def618e4ec1",
+      "name": "Message a model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "nfOrPVa7QozMk193",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "AI AGENT FOR FILTERING , CATEGROSING AND PREPARING DRAFT ON THE BASICS OF DEIFFETENT TYPE OF CONTENTS RCVD> ON GMAIL.",
+        "height": 80,
+        "width": 1008,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        224,
+        -656
+      ],
+      "typeVersion": 1,
+      "id": "96b99a26-d19c-4b8a-8c55-1dc399908b41",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {
+    "Gmail Trigger": [
+      {
+        "json": {
+          "id": "199a588fc71e1d9b",
+          "threadId": "199a588fc71e1d9b",
+          "snippet": "this is personal Email ",
+          "payload": {
+            "mimeType": "multipart/alternative"
+          },
+          "sizeEstimate": 5734,
+          "historyId": "245092",
+          "internalDate": "1759418828000",
+          "labels": [
+            {
+              "id": "INBOX",
+              "name": "INBOX"
+            },
+            {
+              "id": "IMPORTANT",
+              "name": "IMPORTANT"
+            },
+            {
+              "id": "CATEGORY_PERSONAL",
+              "name": "CATEGORY_PERSONAL"
+            },
+            {
+              "id": "UNREAD",
+              "name": "UNREAD"
+            }
+          ],
+          "From": "PushapMohan Sharma <spushapmohan@gmail.com>",
+          "Subject": "Test of N8N",
+          "To": "124113008@nitkkr.ac.in"
+        }
+      }
+    ],
+    "Message a model1": [
+      {
+        "json": {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": {
+              "subject_line": "Test of N8N",
+              "email_body": "This is a personal email.Hello How Are You"
+            },
+            "refusal": null,
+            "annotations": []
+          },
+          "logprobs": null,
+          "finish_reason": "stop"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "Add label to message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add label to message2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add label to message3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add label to message4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add label to message5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add label to message6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add label to message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message1": {
+      "main": [
+        [
+          {
+            "node": "Mark a message as read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message2": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message3": {
+      "main": [
+        [
+          {
+            "node": "Message a model1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model1": {
+      "main": [
+        [
+          {
+            "node": "Create a draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6500f72c-51d4-4bcc-a3df-6f02607a6789",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9037830ce4f6084c580dd20cc4669ed68bed834919ab5992b93d6f4ca2e0d825"
+  },
+  "id": "W2CL38GtvCGF9Bje",
+  "tags": []
+}
